@@ -1,7 +1,10 @@
-import config from './config';
-import {User, Product} from './models';
+const DirWatcher = require('./modules/dirwatcher');
+const config = require('./config/');
 
-console.log(`App by name: ${config.name} was started !`);
+const dirWatcher = new DirWatcher(config.dirData);
 
-const user = new User();
-const product = new Product();
+dirWatcher.on('dirwatcher:changed', (evData) => {
+    console.log('>>>>>>>> directory was changed !!!!', evData);
+});
+
+dirWatcher.watch();
