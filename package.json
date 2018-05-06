@@ -4,8 +4,7 @@
   "description": "mentorship",
   "main": "index.js",
   "scripts": {
-    "babel-node": "babel-node --presets=env",
-    "start": "nodemon --exec npm run babel-node -- app.js",
+    "start": "node app.js",
     "test": ""
   },
   "repository": {
