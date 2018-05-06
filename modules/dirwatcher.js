@@ -1,6 +1,8 @@
-var EventEmiter = require('events');
-var fs = require('fs');
-var path = require('path');
+const EventEmiter = require('events');
+const fs = require('fs');
+const path = require('path');
+
+const {constants:{EVENTS, fileExts}} = require('../config');
 
 class DirWatcher extends EventEmiter {
 
@@ -11,7 +13,6 @@ class DirWatcher extends EventEmiter {
         this.delay = delay;
         this._listFiles = [];
         this._timer = null;
-        this.eventName = 'dirwatcher:changed';
 
         this._checkDirState = this._checkDirState.bind(this);
     }
@@ -33,7 +34,7 @@ class DirWatcher extends EventEmiter {
     }
 
     _checkDirState() {
-        let newListFiles = fs.readdirSync(this.fullDirPath);
+        let newListFiles = this._readDir();
         let differences;
 
         if(newListFiles.length) {
@@ -41,9 +42,35 @@ class DirWatcher extends EventEmiter {
 
             if(differences.length) {
                 this._listFiles = [].concat(this._listFiles, differences);
-                this.emit(this.eventName, {differences});
+                this.emit(EVENTS.dirChanged, [...differences]);
             }
+        }else {
+            this._listFiles = [];
         }
+    }
+
+    _readDir() {
+        let files = [];
+
+        try{
+            files = fs.readdirSync(this.fullDirPath);
+        }catch(err) {
+            console.log('Error while reading dirrectory: ', err);
+            return [];
+        }
+
+        return files.reduce((tmp, f) => {
+            let pointIndex = f.indexOf('.');
+            let ext = f.substring(pointIndex);
+
+            if(pointIndex == -1 || fileExts.indexOf(ext) == -1) return tmp;
+
+            let fileWithFullPath = `${this.fullDirPath}\\${f}`;
+            tmp.push(fileWithFullPath);
+
+            return tmp;
+
+        }, []);
     }
 
     _getDifferences(dirContent = []) {
