@@ -1,7 +1,18 @@
-import config from './config';
-import {User, Product} from './models';
+const DirWatcher = require('./modules/dirwatcher');
+const Importer = require('./modules/importer');
 
-console.log(`App by name: ${config.name} was started !`);
+const config = require('./config/');
+const {constants:{EVENTS}, dirData} = config;
 
-const user = new User();
-const product = new Product();
+const dirWatcher = new DirWatcher(dirData);
+const importer = new Importer();
+
+dirWatcher.on(EVENTS.dirChanged, (files) => {
+    importer.import(files)
+        .then(data => console.log(data))
+        .catch(err => console.log(err));
+});
+
+// dirWatcher.on(EVENTS.dirChanged, importer.importSync);
+
+dirWatcher.watch();

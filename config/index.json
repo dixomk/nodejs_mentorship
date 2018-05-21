@@ -1,3 +1,10 @@
 {
-    "name": "Node.js Homework Application"
+    "name": "Node.js Homework Application",
+    "dirData": "../data",
+    "constants": {
+        "EVENTS": {
+            "dirChanged": "dirwatcher:changed"
+        },
+        "fileExts": [".csv"]
+    }
 }
