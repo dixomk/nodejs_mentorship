@@ -6,7 +6,7 @@ class ProductsRestApi {
         res.json(products);
     }
 
-    static getProductById(req, res) {
+    static getProductById(req, res, next) {
         const{id:productID} = req.params;
         const findedProduct = productID
             ? products.reduce((tmp, prd) => {
@@ -14,8 +14,11 @@ class ProductsRestApi {
                 return tmp;
             }, {})
             : {};
-
-        res.json(findedProduct);
+        if(!findedProduct.id) {
+            next(new Error('Error: Product not found !'));
+        }else {
+            res.json(findedProduct);
+        }
     }
 
     static getReviewsForProduct(req, res) {
