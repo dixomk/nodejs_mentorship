@@ -2,11 +2,18 @@ const products = require('../models/products-model.json');
 const reviews = require('../models/reviews-for-products.json');
 
 class ProductsRestApi {
-    static getAllProducts(req, res) {
-        res.json(products);
+    constructor() {
+        this.getAllProducts = this.getAllProducts.bind(this);
+        this.getProductById = this.getProductById.bind(this);
+        this.getReviewsForProduct = this.getReviewsForProduct.bind(this);
+        this.addNewProduct = this.addNewProduct.bind(this);
     }
 
-    static getProductById(req, res, next) {
+    getAllProducts(req, res) {
+        res.json(products);
+    }
+   
+    getProductById(req, res, next) {
         const{id:productID} = req.params;
         const findedProduct = productID
             ? products.reduce((tmp, prd) => {
@@ -21,7 +28,7 @@ class ProductsRestApi {
         }
     }
 
-    static getReviewsForProduct(req, res) {
+    getReviewsForProduct(req, res) {
         const{id:productID} = req.params;
         const findedReviews = productID
             ? reviews.reduce((tmp, productReviews) => {
@@ -33,7 +40,7 @@ class ProductsRestApi {
         res.json(findedReviews);
     }
 
-    static addNewProduct(req, res) {
+    addNewProduct(req, res) {
         const{id, title, description, price} = req.body; 
         newProduct = {
             id,

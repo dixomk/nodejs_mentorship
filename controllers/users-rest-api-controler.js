@@ -1,7 +1,11 @@
 const users = require('../models/users-model');
 
 class UsersRestApi {
-    static getAllUsers(req, res) {
+    constructor() {
+        this.getAllUsers = this.getAllUsers.bind(this);
+    }
+
+    getAllUsers(req, res) {
         res.json(users);
     }
 }

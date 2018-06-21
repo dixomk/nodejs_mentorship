@@ -1,10 +1,12 @@
 const express = require('express');
 
-const usersRestApiController = require('../controllers/users-rest-api-controler');
+const UsersRestApiController = require('../controllers/users-rest-api-controler');
 
+const usersRestApiController = new UsersRestApiController();
+const{getAllUsers} = usersRestApiController;
 const usersRouter = express.Router();
 
 usersRouter
-    .get('/', usersRestApiController.getAllUsers);
+    .get('/', getAllUsers);
     
 module.exports = usersRouter;

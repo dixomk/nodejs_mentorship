@@ -8,6 +8,7 @@ const queryStringParser = require('./middlewares/query-string-parser')();
 // routers
 const productsRouter = require('./routes/products-router');
 const usersRouter = require('./routes/users-router');
+const authJWTRouter = require('./routes/auth-jwt-router');
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(cookieParser);
 app.use(queryStringParser);
 
 // set rest api routers
+app.use('/auth/jwt', authJWTRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/users', usersRouter);
 
