@@ -42,7 +42,7 @@ class ProductsRestApi {
 
     addNewProduct(req, res) {
         const{id, title, description, price} = req.body; 
-        newProduct = {
+        let newProduct = {
             id,
             title,
             description,
