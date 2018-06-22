@@ -9,9 +9,15 @@
     },
     "jwt": {
         "jwtSecret": "MyS3cr3tK3Y",
+        "expiresIn": "36800",
         "jwtSession": {
-            "session": "false",
-            "expiresIn": "60 * 60"
+            "session": "false"
+            
         }
+    },
+    "session": {
+        "secret": "MyS3cr3tK3Y",
+        "resave": "false",
+        "saveUninitialized": "false"
     }
 }
