@@ -8,16 +8,10 @@
         "fileExts": [".csv"]
     },
     "jwt": {
-        "jwtSecret": "MyS3cr3tK3Y",
+        "jwtSecret": "JWTSecretWord",
         "expiresIn": "36800",
         "jwtSession": {
             "session": "false"
-            
         }
-    },
-    "session": {
-        "secret": "MyS3cr3tK3Y",
-        "resave": "false",
-        "saveUninitialized": "false"
     }
 }

@@ -24,9 +24,9 @@ class AuthJWT {
                         "token": jwt.sign({name}, jwtSecret, {expiresIn} )
                     }
                 })
-            : res.status('401')
+            : res.status('404')
                 .json({
-                    "code": "401",
+                    "code": "404",
                     "message": "Not Found",
                     "data": {},
                     "token": "null"
