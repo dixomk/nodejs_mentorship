@@ -6,5 +6,12 @@
             "dirChanged": "dirwatcher:changed"
         },
         "fileExts": [".csv"]
+    },
+    "jwt": {
+        "jwtSecret": "JWTSecretWord",
+        "expiresIn": "36800",
+        "jwtSession": {
+            "session": "false"
+        }
     }
 }
