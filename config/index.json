@@ -23,5 +23,8 @@
             "port": "5432",
             "dialect": "postgres"
         }
+    },
+    "mongodb": {
+        "url": "mongodb://hw_seven_admin:hw_7_admin@ds125211.mlab.com:25211/hw_seven"
     }
 }
