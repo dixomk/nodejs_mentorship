@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const users = require('../models/users-model');
+const models  = require('../models');
 const config = require('../config');
 
 class AuthJWT {
@@ -8,29 +8,48 @@ class AuthJWT {
     }
 
     login(req, res) {
-        const{name, password} = req.body;
+        const{username, password} = req.body;
         const{jwtSecret, expiresIn} = config.jwt;
-    
-        users.filter(user => user.name == name && user.password == password).length == 1
-            ? res.status('200')
+        models.User.findOne({
+            where: {
+                username: username,
+                password: password
+            }
+        })
+        .then(user => {
+            if(user){
+                return res.status('200')
                 .json({
                     "code": "200",
                     "message": "OK",
                     "data": {
                         "user": {
-                            "email": "test@gmail.com",
-                            "username": `${name}`
+                            "email": user.email,
+                            "username": user.username
                         },
-                        "token": jwt.sign({name}, jwtSecret, {expiresIn} )
+                        "token": jwt.sign({name: user.username}, jwtSecret, {expiresIn} )
                     }
                 })
-            : res.status('404')
+            }
+
+            res.status('404')
+                .json({
+                    "code": "404",
+                    "message": "User Not Found",
+                    "data": {},
+                    "token": "null"
+                });
+        })
+        .catch(err => {
+            console.log('Error while authorization', err);
+            res.status('404')
                 .json({
                     "code": "404",
                     "message": "Not Found",
                     "data": {},
                     "token": "null"
                 });
+        });
     }
 }
 

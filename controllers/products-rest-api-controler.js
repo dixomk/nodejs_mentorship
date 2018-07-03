@@ -1,5 +1,4 @@
-const products = require('../models/products-model.json');
-const reviews = require('../models/reviews-for-products.json');
+const models = require('../models');
 
 class ProductsRestApi {
     constructor() {
@@ -10,47 +9,58 @@ class ProductsRestApi {
     }
 
     getAllProducts(req, res) {
-        res.json(products);
+        models.Product.findAll()
+        .then(products => {
+            res.json(products);
+        })
+        .catch(err => {
+            res.status('500')
+                .json({status: '500', message: 'Server error'});
+        });
     }
    
     getProductById(req, res, next) {
-        const{id:productID} = req.params;
-        const findedProduct = productID
-            ? products.reduce((tmp, prd) => {
-                productID === prd.id ? tmp = prd : null;
-                return tmp;
-            }, {})
-            : {};
-        if(!findedProduct.id) {
-            next(new Error('Error: Product not found !'));
-        }else {
-            res.json(findedProduct);
-        }
+        const{id:productId} = req.params;
+        models.Product.findOne({
+            where: {
+                id: productId
+            },
+            attributes: ['id', 'title', 'description', 'price']
+        })
+        .then(product => {
+            if(!product) {
+                next(new Error('Error: Product not found !'));
+            }else {
+                res.json(product);
+            }
+        })
+        .catch(console.log);
     }
 
     getReviewsForProduct(req, res) {
-        const{id:productID} = req.params;
-        const findedReviews = productID
-            ? reviews.reduce((tmp, productReviews) => {
-                productID === productReviews.productID ? tmp = tmp.concat(productReviews.reviews) : null;
-                return tmp;
-            }, [])
-            : [];
-
-        res.json(findedReviews);
+        const{id:productId} = req.params;
+        models.Review.findOne({
+            where: {
+                productId: productId
+            },
+            attributes: ['description']
+        })
+        .then(review => res.json(review || {}))
+        .catch(err => res.json({status: '400', message: 'Review not found'}));
     }
-
+ 
     addNewProduct(req, res) {
-        const{id, title, description, price} = req.body; 
-        let newProduct = {
-            id,
-            title,
-            description,
-            price
-        };
-        products.push(newProduct);
-
-        res.json(newProduct);
+        const{title, description, price, available} = req.body;
+        models.Product.create({
+                title,
+                description,
+                price,
+                available,
+                createdAt: new Date(),
+                updatedAt: new Date()
+        })
+        .then(newProduct => res.json(newProduct))
+        .catch(err => res.json({status: '400', message: 'Error while creating Product'})); 
     }
 }
 

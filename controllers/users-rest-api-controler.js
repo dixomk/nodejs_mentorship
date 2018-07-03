@@ -1,17 +1,13 @@
-const users = require('../models/users-model');
+const models = require('../models');
 
 class UsersRestApi {
     constructor() {
         this.getAllUsers = this.getAllUsers.bind(this);
-        this.getByID = this.getByID.bind(this);
     }
 
     getAllUsers(req, res) {
-        res.json(users);
-    }
-
-    getByID(req, res) {
-        
+        models.User.findAll()
+        .then(users => res.json(users));
     }
 }
 
