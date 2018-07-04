@@ -14,8 +14,5 @@ productSchema.pre('save', function(next) {
     next();
 });
 
-productSchema.pre('update', function() {
-    this.update({},{ $set: {lastModifiedDate: new Date()} });
-});
 
 module.exports = productSchema;

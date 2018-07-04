@@ -11,38 +11,29 @@ class CitiesApiController {
         this.updateCity = this.updateCity.bind(this);
         this.delCity = this.delCity.bind(this);
         this.addNewCity = this.addNewCity.bind(this);
-        this.insertManyCities = this.insertManyCities.bind(this);
     }
 
     getAllCities(req, res) {
-         res.end();
+        mongoose.connect(url);
+        City.find().exec()
+            .then(result => res.json(result))
+            .catch(err => console.log(err));
     }
 
     getRandomCity(req, res) {
-        const db = req.mdb.db('hw_seven');
-        const cCities = db.collection('cities');
-        cCities.find().toArray()
-            .then(cities => {
-                let randomCity = (cities.length) 
-                    ? cities[_.random(0, cities.length-1)]
-                    : {};
-                res.status('200')
-                    .json(randomCity);
+        mongoose.connect(url);
+        City.find().exec()
+            .then(result => {
+                if(result.length) {
+                    res.status('200')
+                        .json(result[_.random(0, result.length-1)]);
+                }else {
+                    res.status('200')
+                        .json({});
+                }
+                mongoose.disconnect();
             })
-            .catch(err => {
-                console.log(err);
-                res.status('500')
-                    .json({code: 500, message: 'Error while reading from DB'});
-            });
-        req.mdb.close();
-    }
-
-    insertManyCities(req, res) {
-        const db = req.mdb.db('hw_seven');
-        const cCities = db.collection('cities');
-        cCities.insertMany(mockData, this.errorhandler('Error while inserting many cities'));
-        req.mdb.close();
-        res.end();
+            .catch(err => console.log(err));
     }
 
     updateCity(req, res) {
@@ -50,9 +41,28 @@ class CitiesApiController {
         const{name, capital, country, location} = req.body;
         mongoose.connect(url);
 
-        City.findByIdAndUpdate(cityId, {name, capital, country, location}, {upsert: true, new: true}, (err, result) => {
-            if(err) console.log(err);
-            res.json(result);
+        City.findById(cityId, (err, result) => {
+            if(err) {
+                console.log(err);
+                res.status('500')
+                    .json({message: 'Error while finding City'});
+            }else {
+                let newValues = {name, capital, country, location};
+                _.keys(newValues).forEach(field => {
+                    if(newValues[field]) result[field] = newValues[field];
+                });
+                result.save(err => {
+                    if(err) {
+                        res.status('500')
+                            .json({status: '500', message: 'Error while updating City'})
+                    }else {
+                        res.status('200')
+                            .json(result);
+                    }
+                    mongoose.disconnect();
+                });
+            }
+            
         });
     }
 

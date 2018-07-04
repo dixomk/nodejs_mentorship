@@ -17,10 +17,4 @@ citiesSchema.pre('save', function(next) {
     next();
 });
 
-citiesSchema.pre('update', function() {
-    console.log('updating lastmodified')
-    this.update({},{ $set: {lastModifiedDate: new Date()} });
-    next();
-});
-
 module.exports = citiesSchema;
