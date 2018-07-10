@@ -7,4 +7,8 @@ dbProvider.sequelize.sync()
     .then(() => {
         app.listen(port, () => console.log(`App listening on port ${port} !`));
     });
+
 // some test comment B
+
+// test EE
+
