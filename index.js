@@ -12,3 +12,4 @@ dbProvider.sequelize.sync()
 
 // test EE
 
+var test = 0;
