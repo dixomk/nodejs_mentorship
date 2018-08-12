@@ -11,6 +11,8 @@ const loginRequired = require('./middlewares/login-required');
 const productsRouter = require('./routes/products-router');
 const usersRouter = require('./routes/users-router');
 const authJWTRouter = require('./routes/auth-jwt-router');
+const citiesMongoRouter = require('./routes/cities-mongo-router');
+const citiesMongooseRouter = require('./routes/cities-mongoose-router');
 
 const app = express();
 
@@ -20,8 +22,10 @@ app.use(cookieParser);
 app.use(queryStringParser);
 
 // set rest api routers with jwt local token
-app.use('/api/products', productsRouter); // loginRequired,
-app.use('/api/users', usersRouter); // loginRequired, 
+app.use('/api/products', productsRouter);
+app.use('/api/cities', citiesMongoRouter);
+app.use('/api/citiesm', citiesMongooseRouter);
+app.use('/api/users', usersRouter); 
 
 app.use('/auth/jwt', authJWTRouter);
 
@@ -30,7 +34,5 @@ app.use((err, req, res, next) => {
     console.log('error:', err);
     res.json({});
 });
-
-
 
 module.exports = app;
