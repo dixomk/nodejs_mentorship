@@ -1,0 +1,5 @@
+{
+  "name": "NodeMP HW App",
+  "secret": "topSecretKey",
+  "db": "mongodb://localhost:27017/hw7"
+}

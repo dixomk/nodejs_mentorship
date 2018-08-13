@@ -1,0 +1,422 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "api HW8",
+    "version" : "0.0.1",
+    "title" : "HW8"
+  },
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/auth" : {
+      "post" : {
+        "description" : "login users",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "schema" : {
+              "$ref" : "#/definitions/inline_response_200"
+            }
+          }
+        }
+      }
+    },
+    "/api/products" : {
+      "get" : {
+        "summary" : "Find all products",
+        "description" : "Returns a list of products",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Product"
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ],
+        "x-swagger-router-controller" : "getProducts"
+      }
+    },
+    "/api/products/{productId}" : {
+      "get" : {
+        "summary" : "Find product by ID",
+        "description" : "Returns a single product",
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "path",
+          "description" : "ID of product to return",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "schema" : {
+              "$ref" : "#/definitions/Product"
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ],
+        "x-swagger-router-controller" : "getProductById"
+      },
+      "delete" : {
+        "summary" : "Deletes a product",
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "path",
+          "description" : "ID of product to return",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "schema" : {
+              "$ref" : "#/definitions/Product"
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ],
+        "x-swagger-router-controller" : "removeProduct"
+      }
+    },
+    "/api/users" : {
+      "get" : {
+        "summary" : "Find all users",
+        "description" : "Returns a list of users",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/User"
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ],
+        "x-swagger-router-controller" : "getUsers"
+      }
+    },
+    "/api/users/{userId}" : {
+      "get" : {
+        "summary" : "Find user by ID",
+        "description" : "Returns a single user",
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "description" : "ID of user to return",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ],
+        "x-swagger-router-controller" : "getUserById"
+      },
+      "delete" : {
+        "summary" : "Deletes a user",
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "description" : "ID of user to return",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ],
+        "x-swagger-router-controller" : "removeUser"
+      }
+    },
+    "/api/cities" : {
+      "get" : {
+        "summary" : "Find all cities",
+        "description" : "Returns a list of cities",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/City"
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ],
+        "x-swagger-router-controller" : "getCities"
+      },
+      "post" : {
+        "summary" : "Add a new city in db",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "City object that needs to be added to the db",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/City"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "schema" : {
+              "$ref" : "#/definitions/City"
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ],
+        "x-swagger-router-controller" : "createCity"
+      }
+    },
+    "/api/cities/{cityId}" : {
+      "put" : {
+        "summary" : "Find city by ID",
+        "description" : "Update a city",
+        "parameters" : [ {
+          "name" : "cityId",
+          "in" : "path",
+          "description" : "ID of city to update",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "City object that needs to be updated to the db",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/City"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "schema" : {
+              "$ref" : "#/definitions/City"
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ],
+        "x-swagger-router-controller" : "updateCity"
+      },
+      "delete" : {
+        "summary" : "Deletes a city",
+        "parameters" : [ {
+          "name" : "cityId",
+          "in" : "path",
+          "description" : "ID of city to return",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "schema" : {
+              "$ref" : "#/definitions/City"
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ],
+        "x-swagger-router-controller" : "removeCity"
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "Bearer" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "Product" : {
+      "type" : "object",
+      "properties" : {
+        "_id" : {
+          "type" : "integer",
+          "format" : "int64",
+          "example" : "5a15586ccd8eca13cc1edcb9"
+        },
+        "name" : {
+          "type" : "string",
+          "example" : "Rustic Cotton Pants"
+        },
+        "price" : {
+          "type" : "string",
+          "example" : "762"
+        }
+      },
+      "example" : {
+        "price" : "762",
+        "name" : "Rustic Cotton Pants",
+        "_id" : "5a15586ccd8eca13cc1edcb9"
+      }
+    },
+    "City" : {
+      "type" : "object",
+      "properties" : {
+        "_id" : {
+          "type" : "integer",
+          "format" : "int64",
+          "example" : "5a15586ccd8eca13cc1edcb9"
+        },
+        "name" : {
+          "type" : "string",
+          "example" : "Sonyaberg"
+        },
+        "country" : {
+          "type" : "string",
+          "example" : "Japan"
+        },
+        "location" : {
+          "$ref" : "#/definitions/GeoLocation"
+        }
+      },
+      "example" : {
+        "country" : "Japan",
+        "name" : "Sonyaberg",
+        "location" : {
+          "lat" : "lat",
+          "long" : "long"
+        },
+        "_id" : "5a15586ccd8eca13cc1edcb9"
+      }
+    },
+    "GeoLocation" : {
+      "type" : "object",
+      "properties" : {
+        "lat" : {
+          "type" : "string"
+        },
+        "long" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "lat" : "lat",
+        "long" : "long"
+      }
+    },
+    "User" : {
+      "type" : "object",
+      "properties" : {
+        "_id" : {
+          "type" : "integer",
+          "format" : "int64",
+          "example" : "5a15586ccd8eca13cc1edcb9"
+        },
+        "email" : {
+          "type" : "string",
+          "example" : "Eleonore46@hotmail.com"
+        },
+        "name" : {
+          "type" : "string",
+          "example" : "Vicky Morissette"
+        },
+        "password" : {
+          "type" : "string",
+          "example" : "VaJoUp5QpqEYY3r"
+        }
+      },
+      "example" : {
+        "password" : "VaJoUp5QpqEYY3r",
+        "name" : "Vicky Morissette",
+        "_id" : "5a15586ccd8eca13cc1edcb9",
+        "email" : "Eleonore46@hotmail.com"
+      }
+    },
+    "inline_response_200_data" : {
+      "properties" : {
+        "user" : {
+          "$ref" : "#/definitions/User"
+        }
+      },
+      "example" : {
+        "user" : {
+          "password" : "VaJoUp5QpqEYY3r",
+          "name" : "Vicky Morissette",
+          "_id" : "5a15586ccd8eca13cc1edcb9",
+          "email" : "Eleonore46@hotmail.com"
+        }
+      }
+    },
+    "inline_response_200" : {
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "example" : "200"
+        },
+        "message" : {
+          "type" : "string",
+          "example" : "OK"
+        },
+        "data" : {
+          "$ref" : "#/definitions/inline_response_200_data"
+        },
+        "token" : {
+          "type" : "string",
+          "example" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVmlja3kgTW9yaXNzZXR0ZSIsImlhdCI6MTUxMzE1MzY3OCwiZXhwIjoxNTEzNzU4NDc4fQ.RYuUd3Hl7YH9mnipCLj_nPdGnDWccyt91ZbCxA3ZF_o"
+        }
+      },
+      "example" : {
+        "code" : "200",
+        "data" : {
+          "user" : {
+            "password" : "VaJoUp5QpqEYY3r",
+            "name" : "Vicky Morissette",
+            "_id" : "5a15586ccd8eca13cc1edcb9",
+            "email" : "Eleonore46@hotmail.com"
+          }
+        },
+        "message" : "OK",
+        "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVmlja3kgTW9yaXNzZXR0ZSIsImlhdCI6MTUxMzE1MzY3OCwiZXhwIjoxNTEzNzU4NDc4fQ.RYuUd3Hl7YH9mnipCLj_nPdGnDWccyt91ZbCxA3ZF_o"
+      }
+    }
+  }
+}
